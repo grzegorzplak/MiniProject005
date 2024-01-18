@@ -1,0 +1,67 @@
+﻿@model IEnumerable<MiniProject005.Models.Fruit>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<form method="post" asp-controller="Fruits" asp-action="Index">
+    <table class="table">
+        <thead>
+            <tr>
+                <th class="col-3">
+                    @Html.DisplayNameFor(model => model.Name)
+                </th>
+                <th>&nbsp;</th>
+            </tr>
+        </thead>
+        <tbody>
+    @foreach (var item in Model) {
+            <tr>
+                <td class="col-3">
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                    <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                    <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                </td>
+            </tr>
+    }
+        </tbody>
+    </table>
+    <div class="row">
+        <table>
+            <tr>
+                @for (int i = 1; i <= Math.Ceiling((double)ViewBag.Count / 5); i++)
+                {
+                    <td>
+                        @if (i != ViewBag.PageNr)
+                        {
+                            <a href="javascript:PagerClick(@i)">@i</a>
+                        }
+                        else
+                        {
+                            <span>@i</span>
+                        }
+                    </td>
+                }
+            </tr>
+        </table>
+        <input type="hidden" name="pageNr" id="pageNr" />
+    </div>
+</form>
+
+@section Scripts
+{
+    <script type="text/javascript">
+        function PagerClick(index) {
+            document.getElementById("pageNr").value = index;
+            document.forms[0].submit();
+        }
+    </script>
+}
